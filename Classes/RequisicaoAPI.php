@@ -9,7 +9,7 @@ class RequisicaoAPI {
         $connect = $connect->getConnection();
 
         foreach ($data['results'] as $pergunta) {
-            $type = $pergunta['type'];
+            $type_ = $pergunta['type'];
             $difficulty = $pergunta['difficulty'];
             $category = $pergunta['category'];
             $question = $pergunta['question'];
@@ -17,9 +17,9 @@ class RequisicaoAPI {
             $incorrect_answer =  json_encode($pergunta['incorrect_answers']);
         
             
-            $stmt = $connect->prepare("INSERT INTO pergunta (type, difficulty, category, question, correct_answer, incorrect_answers) VALUES (:type, :difficulty, :category, :question, :correct_answer, :incorrect_answers)");
+            $stmt = $connect->prepare("INSERT INTO pergunta (type_, difficulty, category, question, correct_answer, incorrect_answers) VALUES (:type_, :difficulty, :category, :question, :correct_answer, :incorrect_answers)");
 
-            $stmt->bindParam("type", $type);
+            $stmt->bindParam("type_", $type_);
             $stmt->bindParam("difficulty", $difficulty);
             $stmt->bindParam("category", $category);
             $stmt->bindParam("question", $question);
