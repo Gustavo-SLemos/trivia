@@ -5,22 +5,20 @@ require_once "Connect.php";
 class Tentativa {
 
 
-    public function armazenaPergunta() {
+    public function armazenaPergunta($idJogo, $numeroPerguntas, $nomeJogador, $id_resposta, $pergunta) {
         $connect = new Connect();
         $connect = $connect->getConnection();
 
-        $stmt = $connect->prepare("INSERT INTO tentativa (idJogo, nomeJogador, pergunta, id_resposta, numeroPerguntas) VALUES (:idJogo, :nomeJogador, :pergunta, :id_reposta, :numeroPerguntas)");
+        $stmt = $connect->prepare("INSERT INTO tentativa (id_jogo, nome_jogador, pergunta, id_resposta, numero_perguntas) VALUES (:id_jogo, :nome_jogador, :pergunta, :id_resposta, :numero_perguntas)");
 
-        foreach ($_SESSION as $key => $value) {
-            if (isset($value['idJogo'], $value['nomeJogador'], $value['pergunta'])) {
-                $stmt->bindParam(':idJogo', $value['idJogo']);
-                $stmt->bindParam(':nomeJogador', $value['nomeJogador']);
-                $stmt->bindParam(':pergunta', $value['pergunta']);
-                $stmt->bindParam(':id_resposta', $value['id_resposta']);
-                $stmt->bindParam(':numeroPerguntas', $value['numeroPerguntas']);
-                $stmt->execute();
-            }
-        }
+       
+        $stmt->bindParam(':id_jogo', $idJogo);
+        $stmt->bindParam(':nome_jogador', $nomeJogador);
+        $stmt->bindParam(':pergunta', $pergunta);
+        $stmt->bindParam(':id_resposta', $id_resposta);
+        $stmt->bindParam(':numero_perguntas', $numeroPerguntas);
+
+        $stmt->execute();
     }
 }
 

@@ -1,21 +1,29 @@
 <?php
 require "Classes/Jogo.php";
+require "Classes/Tentativa.php";
 
 
 
 
 $jogo = new Jogo($_GET["nomeJogador"]);
 
-$_SESSION["id_resposta"] = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+$resposta = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
+$_SESSION["id_resposta"] = $resposta["id_resposta"];
 
 var_dump($_SESSION);
 
-$salvar = (new Tentativa)->armazenaPergunta();
+
+
+
 
 if(isset($_POST["sair"])) {
     unset($_SESSION["numeroPerguntas"]);
     header("Location: index.html");
+}
+
+if(isset($_POST["resposta"])) {
+    $salvar = (new Tentativa)->armazenaPergunta($_SESSION['idJogo'], $_SESSION['numeroPerguntas'], $_SESSION['nomeJogador'], $_SESSION['id_resposta'], $_SESSION['pergunta']);
 }
 
 ?>

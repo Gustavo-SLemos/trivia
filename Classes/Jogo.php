@@ -25,9 +25,6 @@ class Jogo extends Pergunta {
         }
         $this->numeroPerguntas = $_SESSION["numeroPerguntas"];
 
-
-        
-
         $_SESSION["nomeJogador"] = $this->nomeJogador;
     }
 
