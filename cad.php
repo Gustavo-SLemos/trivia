@@ -3,10 +3,12 @@ require_once "Classes/Jogo.php";
 require_once "Classes/Connect.php";
 
 
+$resposta = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+var_dump($resposta);
 
 $jogo = new Jogo($_GET["nomeJogador"]);
 
-
+var_dump($_SESSION);
 
 ?>
 
@@ -26,8 +28,8 @@ $jogo = new Jogo($_GET["nomeJogador"]);
     <section class="section-cad">
         <form class="form-cad" method="post">
             <?php $jogo->iniciarJogo(); ?>
+            <input type="submit" name="resposta" value="Enviar">
         </form>
-        <input type="submit" value="Enviar">
         <p><a href="index.html"><button>Sair</button></a></p>
     </section>
 </body>
