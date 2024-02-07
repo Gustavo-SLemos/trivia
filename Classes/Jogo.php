@@ -12,14 +12,19 @@ class Jogo extends Pergunta {
     public function __construct($nomeJogador)
     {
         $this->nomeJogador = $nomeJogador;
-        $this->numeroPerguntas = 0;
 
         session_start();
 
         if (!isset($_SESSION["idJogo"])) {
-            $_SESSION["idJogo"] = 1;
+            $_SESSION["idJogo"] = 0;
         }
         $this->idJogo = $_SESSION["idJogo"];
+
+        if (!isset($_SESSION["numeroPerguntas"])) {
+            $_SESSION["numeroPerguntas"] = 0;
+        }
+        $this->numeroPerguntas = $_SESSION["numeroPerguntas"];
+
 
         
 
@@ -40,39 +45,41 @@ class Jogo extends Pergunta {
     public function iniciarJogo() {
         
         $pergunta = new Pergunta();
-        $this->numeroPerguntas++;
-        
+
         $conexaoInternet = $this->verificarConexaoInternet();
         
         if ($conexaoInternet) {
             
             $perguntas = $pergunta->gerarPerguntaAPI();
             $_SESSION["pergunta"] = $perguntas;
+
+            $this->numeroPerguntas = $_SESSION["numeroPerguntas"];
             
-            if ($this->numeroPerguntas > 5) {
-                $_SESSION["idJogo"]++; 
+            if ($this->numeroPerguntas % 5 == 0) {
+                $_SESSION["idJogo"]++;
                 $this->idJogo = $_SESSION["idJogo"];
-                $this->numeroPerguntas = 0;
-                session_destroy();
+                $perguntas = $pergunta->gerarPerguntaAPI();
             }
 
         } else {
 
             $perguntas = $pergunta->gerarPerguntaBD();
+            $_SESSION["pergunta"] = $perguntas;
+            
+            $this->numeroPerguntas = $_SESSION["numeroPerguntas"];
+
+            if ($this->numeroPerguntas % 5 == 0) {
+                $_SESSION["idJogo"]++; 
+                $this->idJogo = $_SESSION["idJogo"];   
+            }
 
         }
 
-       
+        $_SESSION["numeroPerguntas"]++;
+
+        var_dump($this->idJogo);
         var_dump($this->numeroPerguntas);
         return $perguntas;
-    }
-
-    public function novoJogo() {
-
-        if ($this->numeroPerguntas > 5) {
-            $_SESSION["idJogo"]++; 
-            $this->idJogo = $_SESSION["idJogo"]; 
-        }
     }
 
 }

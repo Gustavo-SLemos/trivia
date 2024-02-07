@@ -1,14 +1,22 @@
 <?php
-require_once "Classes/Jogo.php";
-require_once "Classes/Connect.php";
+require "Classes/Jogo.php";
 
 
-$resposta = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-var_dump($resposta);
+
 
 $jogo = new Jogo($_GET["nomeJogador"]);
 
+$_SESSION["id_resposta"] = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+
+
 var_dump($_SESSION);
+
+$salvar = (new Tentativa)->armazenaPergunta();
+
+if(isset($_POST["sair"])) {
+    unset($_SESSION["numeroPerguntas"]);
+    header("Location: index.html");
+}
 
 ?>
 
@@ -29,8 +37,8 @@ var_dump($_SESSION);
         <form class="form-cad" method="post">
             <?php $jogo->iniciarJogo(); ?>
             <input type="submit" name="resposta" value="Enviar">
+            <p><a href="index.html"><button type="submit" name="sair">Sair</button></a></p>
         </form>
-        <p><a href="index.html"><button>Sair</button></a></p>
     </section>
 </body>
 </html>
