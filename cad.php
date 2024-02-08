@@ -2,20 +2,14 @@
 require "Classes/Jogo.php";
 require "Classes/Tentativa.php";
 
-
-
-
 $jogo = new Jogo($_GET["nomeJogador"]);
 
 $resposta = filter_input_array(INPUT_POST, FILTER_DEFAULT);
-
 $_SESSION["id_resposta"] = $resposta["id_resposta"];
 
+var_dump($resposta);
 var_dump($_SESSION);
-
-
-
-
+var_dump($_POST["resposta"]);
 
 if(isset($_POST["sair"])) {
     unset($_SESSION["numeroPerguntas"]);
