@@ -1,6 +1,12 @@
 <?php
 require "Classes/Jogo.php";
 require "Classes/Tentativa.php";
+require "Classes/Connect.php";
+
+session_start();
+
+$connect = new Connect();
+$connect = $connect->getConnection();
 
 $jogo = new Jogo($_GET["nomeJogador"]);
 
@@ -11,7 +17,7 @@ if(isset($_POST["sair"])) {
 
 if(isset($_POST["resposta"])) {
     $_SESSION["id_resposta"] =$_POST["id_resposta"];
-    $salvar = (new Tentativa)->armazenaPergunta($_SESSION['idJogo'], $_SESSION['numeroPerguntas'], $_SESSION['nomeJogador'], $_SESSION['id_resposta'], $_SESSION['pergunta']);
+    $salvar = (new Tentativa)->armazenaPergunta($_SESSION['idJogo'], $_SESSION['numeroPerguntas'], $_SESSION['nomeJogador'], $_SESSION['id_resposta'], $_SESSION['pergunta'], $connect);
 }
 
 var_dump($_SESSION);
@@ -33,7 +39,7 @@ var_dump($_SESSION);
 <body>
     <section class="section-cad">
         <form class="form-cad" method="post">
-            <?php $jogo->iniciarJogo(); ?>
+            <?php $jogo->iniciarJogo($connect); ?>
             <input type="submit" name="resposta" value="Enviar">           
             <p><button type="submit" name="sair">Sair</button></p>
         </form>

@@ -13,8 +13,6 @@ class Jogo extends Pergunta {
     {
         $this->nomeJogador = $nomeJogador;
 
-        session_start();
-
         if (!isset($_SESSION["idJogo"])) {
             $_SESSION["idJogo"] = 0;
         }
@@ -39,7 +37,7 @@ class Jogo extends Pergunta {
         }
     }
 
-    public function iniciarJogo() {
+    public function iniciarJogo($connect) {
         
         $pergunta = new Pergunta();
 
@@ -47,7 +45,7 @@ class Jogo extends Pergunta {
         
         if ($conexaoInternet) {
             
-            $perguntas = $pergunta->gerarPerguntaAPI();
+            $perguntas = $pergunta->gerarPerguntaAPI($connect);
             $_SESSION["pergunta"] = $perguntas;
 
             $this->numeroPerguntas = $_SESSION["numeroPerguntas"];
@@ -55,12 +53,12 @@ class Jogo extends Pergunta {
             if ($this->numeroPerguntas % 5 == 0) {
                 $_SESSION["idJogo"]++;
                 $this->idJogo = $_SESSION["idJogo"];
-                $perguntas = $pergunta->gerarPerguntaAPI();
+                $perguntas = $pergunta->gerarPerguntaAPI($connect);
             }
 
         } else {
 
-            $perguntas = $pergunta->gerarPerguntaBD();
+            $perguntas = $pergunta->gerarPerguntaBD($connect);
             $_SESSION["pergunta"] = $perguntas;
             
             $this->numeroPerguntas = $_SESSION["numeroPerguntas"];

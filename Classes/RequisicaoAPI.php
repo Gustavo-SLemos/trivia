@@ -1,13 +1,11 @@
 <?php 
 
-require_once "Connect.php";
+
 
 class RequisicaoAPI {
     
-    public function dadosAPI($data) {
-        $connect = new Connect();
-        $connect = $connect->getConnection();
-
+    public function dadosAPI($data, $connect) {
+        
         foreach ($data['results'] as $pergunta) {
             $type_ = $pergunta['type'];
             $difficulty = $pergunta['difficulty'];

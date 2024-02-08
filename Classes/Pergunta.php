@@ -5,7 +5,7 @@ require "RequisicaoAPI.php";
 class Pergunta {
 
 
-    public function gerarPerguntaAPI() {
+    public function gerarPerguntaAPI($connect) {
         
         $data = json_decode(file_get_contents("https://opentdb.com/api.php?amount=1"), true);
         
@@ -22,13 +22,12 @@ class Pergunta {
             }
         }
 
-        $banco = (new RequisicaoAPI)->dadosAPI($data);
+        $banco = (new RequisicaoAPI)->dadosAPI($data, $connect);
         return $questao["question"];
     }
 
-    public function gerarPerguntaBD(){
-        $connect = new Connect();
-        $connect = $connect->getConnection();
+    public function gerarPerguntaBD($connect){
+    
 
         $stmt = $connect->prepare("SELECT question, correct_answer, incorrect_answers FROM pergunta ORDER BY RANDOM() LIMIT 1");
         $stmt->execute();

@@ -1,14 +1,11 @@
 <?php 
 
-require_once "Connect.php";
 
 class Tentativa {
 
 
-    public function armazenaPergunta($idJogo, $numeroPerguntas, $nomeJogador, $id_resposta, $pergunta) {
-        $connect = new Connect();
-        $connect = $connect->getConnection();
-
+    public function armazenaPergunta($idJogo, $numeroPerguntas, $nomeJogador, $id_resposta, $pergunta, $connect) {
+    
         $stmt = $connect->prepare("INSERT INTO tentativa (id_jogo, nome_jogador, pergunta, id_resposta, numero_perguntas) VALUES (:id_jogo, :nome_jogador, :pergunta, :id_resposta, :numero_perguntas)");
 
        
